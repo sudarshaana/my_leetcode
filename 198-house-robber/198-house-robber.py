@@ -1,15 +1,20 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
-        def dp(i, memo={}):
+        
+    
+        if len(nums) == 1:
+            return nums[0]
+    
+        # bottomup table init
+        dp = [0]*(len(nums))
 
-            if i == 0:
-                return nums[0]
-            elif i == 1:
-                return max(nums[0], nums[1])
+        # initial base case
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
 
-            if i not in memo:
-                memo[i] = max(dp(i-1), dp(i-2)+nums[i])
+        for i in range(2, len(nums)):
+            dp[i] = max(dp[i-1], dp[i-2]+nums[i])
+            #print(i)
 
-            return memo[i]
-
-        return dp(len(nums)-1)
+        # returning last index of our table
+        return dp[-1]
