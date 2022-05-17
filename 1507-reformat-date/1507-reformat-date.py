@@ -1,19 +1,15 @@
 class Solution:
     def reformatDate(self, date: str) -> str:
         
-    
-        months = list(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])
-    
-    
-        year = date[-4:]
-        print(year)
+        months = {'Jan':'01', 'Feb':'02', 'Mar':'03', 'Apr':'04','May':'05', 'Jun':'06', 'Jul':'07', 'Aug':'08','Sep':'09','Oct':'10','Nov':'11', 'Dec':'12'}    
 
-        month = date[-8:-5]
-        #print(month)
+    
+        dd = date.split()    
+        month = months[dd[1]]
+        day = dd[0][0:-2]
 
-        month_start = date.find(month)
-        day = date[0:month_start-3]
-        #print(day)
+        if len(day) == 1:
+            day = '0'+day
 
-        final_output = year+"-" + str(months.index(month)+1).zfill(2)+"-"+day.zfill(2)
+        final_output = dd[2]+"-" + month+"-"+day
         return final_output
