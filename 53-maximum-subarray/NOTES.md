@@ -1,0 +1,1 @@
+If the current num > the previous sum, we can count from the current num, as this will produce max sum. Right?
