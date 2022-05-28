@@ -21,9 +21,11 @@ class Solution:
         
         fast = head
         slow = head
+        # the first fast is required to check if the init value is None or not,
+        # the fast.next will check if we've reached the end or not
         while fast and fast.next:
-            slow = slow.next 
             fast = fast.next.next
+            slow = slow.next 
             
             if fast == slow:
                 return True
