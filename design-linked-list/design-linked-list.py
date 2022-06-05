@@ -1,103 +1,114 @@
-class Node:
-    def __init__(self, value, next_node = None):
-        self.next = next_node
-        self.value = value
+
+class ListNode:
+    def __init__(self, val, next = None, prev = None):
+        self.val = val
+        self.next = next
+        self.prev = prev
         
-
 class MyLinkedList:
-
     def __init__(self):
-        self.head = None
+        self.sentinel_head = ListNode(0)
+        self.sentinel_tail = ListNode(0)
+        self.sentinel_head.next = self.sentinel_tail
+        self.sentinel_tail.prev = self.sentinel_head
+        self.size = 0
+        
+    def show(self):
+        node = self.sentinel_head.next
+        for _ in range(self.size):
+            print(node.val, end=" ")
+            node = node.next
+        print()
+            
+        
+    def addAtHead(self, value):
+        new_head = ListNode(value, self.sentinel_head.next, self.sentinel_head)
+        # updating old head ponters
+        self.sentinel_head.next.prev = new_head
+        self.sentinel_head.next = new_head
+        self.size+=1
+    
+    def addAtTail(self, value):
+        new_tail = ListNode(value, self.sentinel_tail, self.sentinel_tail.prev)
+        self.sentinel_tail.prev.next = new_tail
+        self.sentinel_tail.prev  = new_tail
+        self.size+=1
+        
+    def addAtIndex(self, index, value):
+        
+        if index > self.size:
+            return 
 
-    def get(self, index: int) -> int:
-        count = 0
-        if self.head is None:
+        if index < 0:
+            index = 0
+            
+        # decide shortest node index position
+        
+        if index < self.size-index: # head is closer
+            
+            pred = self.sentinel_head
+            for _ in range(index):
+                pred = pred.next
+                
+            succ = pred.next                
+            # adding node
+            new_node = ListNode(value, succ, pred)
+            pred.next = new_node
+            succ.prev = new_node
+            
+        else: # tail is closer
+            succ = self.sentinel_tail
+            
+            for _ in range(self.size-index):
+                succ = succ.prev
+                
+            pred = succ.prev
+            # new node
+            new_node = ListNode(value, succ, pred)
+            succ.prev = new_node
+            pred.next = new_node
+    
+        self.size+=1
+        
+        
+    def  deleteAtIndex(self, index):
+        if index < 0 or index >= self.size:
+            return
+    
+        # find predecessor and successor of the node to be deleted
+        if index < self.size - index:
+            pred = self.sentinel_head
+            for _ in range(index):
+                pred = pred.next
+            succ = pred.next.next
+        else:
+            succ = self.sentinel_tail
+            for _ in range(self.size - index - 1):
+                succ = succ.prev
+            pred = succ.prev.prev
+        
+        # delete pred.next 
+        self.size -= 1
+        pred.next = succ
+        succ.prev = pred
+        
+        
+    def get(self, index):
+        # validating index
+        if index < 0 or index > self.size-1:
             return -1
         
-        next_node = self.head
-        while next_node:
-            if count == index:
-                return next_node.value
-            next_node = next_node.next
-            count+=1
-            
-        return -1
-        
-
-    def addAtHead(self, val: int) -> None:
-        if self.head is not None:
-            node = Node(val, self.head)
+        if index < (self.size//2): # head
+            node = self.sentinel_head
+            for _ in range(index+1):
+                node = node.next
+                
+            return node.val
         else:
-            node = Node(val, None)
-        self.head = node
-            
-
-    def addAtTail(self, val: int) -> None:
-        if self.head is None:
-            self.addAtHead(val)
-            return
-        
-        next_node = self.head
-        while next_node is not None:
-            if next_node.next is None:
-                tail_node = Node(val, None)
-                next_node.next = tail_node
-                break
-            next_node = next_node.next
+            node = self.sentinel_tail
+            for _ in range(self.size-index):
+                node = node.prev
+            return node.val
                 
-
-    def addAtIndex(self, index: int, val: int) -> None:
-        
-        if index == 0:
-            self.addAtHead(val)
-            return
-        
-        count = 0
-        current_node = self.head
-        prev_node = self.head
-        
-        while current_node is not None:
-            # if index == 0, insert it as head
-            if index == 0:
-                self.addAtHead(val)
-                break
-
-            elif count == index:
-                #print(str(next_node.value), "added")
-                new_node = Node(val, current_node)
-                prev_node.next = new_node
-                #current_node.next = next_node
-                break
-            
-            elif current_node.next is None:
-                # checking if it is tail
-                self.addAtTail(val)
-                break
                 
-            prev_node = current_node
-            current_node = current_node.next
-            
-            count+=1
-            
-    def deleteAtIndex(self, index: int) -> None:
-        node = self.head
-        if index == 0:
-            # delete head
-            self.head = self.head.next
-            return
-        
-        prev_node = self.head
-        count = 0
-        while node is not None:
-            if count == index:
-                prev_node.next = node.next
-            prev_node = node
-            node = node.next
-            count+=1
-            
-    def show(self):
-        node = self.head
-        while node is not None:
-            print(node.value)
-            node = node.next
             
