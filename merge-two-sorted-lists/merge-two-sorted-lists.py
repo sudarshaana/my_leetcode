@@ -4,14 +4,6 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def mergeRest(self, preNode, node):
-                
-        while node is not None:
-            preNode.next = node
-            preNode = preNode.next
-            node = node.next 
-        
-    
     
     def mergeTwoLists(self, headA: Optional[ListNode], headB: Optional[ListNode]) -> Optional[ListNode]:
         # checking the input base case
@@ -27,15 +19,9 @@ class Solution:
         returnHead = prev
         node1 = node1.next
         
-        while node1 or node2:
+        while node1 and node2:
             
-            if not node1:
-                self.mergeRest(prev, node2)
-                break
-            elif not node2:
-                self.mergeRest(prev, node1)
-                break
-            elif node1.val < node2.val:                
+            if node1.val < node2.val:                
                 prev.next = node1
                 prev = node1
                 node1 = node1.next
@@ -44,5 +30,9 @@ class Solution:
                 prev = node2
                 node2 = node2.next 
                 
-                
+        if node1:
+            prev.next = node1
+        if node2:
+            prev.next = node2
+            
         return returnHead
