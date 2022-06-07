@@ -1,79 +1,135 @@
+class ListNode:
+    def __init__(self, val, key = None, next = None, prev = None):
+        self.val = val
+        self.key = key
+        self.next = next
+        self.prev = prev
+        
+        
+        
 class LRUCache:
-
-#     def __init__(self, capacity: int):
-#         self.capacity= capacity
-#         self.size = 0
-#         self.access_list = []
-#         self.cache = {}
+    def __init__(self, capacity):
+        self.capacity = capacity;
+        self.cache = dict()
+        self.size = 0 
         
-
-#     def get(self, key: int) -> int:
+        # doubley connected linked list
+        self.sentinel_head = ListNode(0)
+        self.sentinel_tail = ListNode(0)
+        self.sentinel_head.next = self.sentinel_tail
+        self.sentinel_tail.prev = self.sentinel_head
         
-#         if key in self.cache:
-#             self.access_list.remove(key)
-#             self.access_list.append(key)
-#             return self.cache[key]
-#         else:
-#             return -1
+        # self.lr = self.sentinel_head
+        # self.mr = self.sentinel_head
         
-
-#     def put(self, key: int, value: int) -> None:
+    def update_node(self, node):
+        # removing the node
+        node.prev.next = node.next 
+        node.next.prev = node.prev
         
-#         if key in self.cache:
-#             self.cache[key] = value
-            
-#             self.access_list.remove(key)
-#             self.access_list.append(key)
-            
-#         else:
-#             self.cache[key] = value
-#             #print("adding {}:{}".format(key, value))
-#             # add to cache
-#             self.size+=1
+        # shifting to MRU
+        prev_node = self.sentinel_tail.prev
         
-#             # removing lru if full
-#             self.access_list.append(key)
-#             if len(self.access_list) > self.capacity:
-#                 hash_key = self.access_list.pop(0)
-#                 del self.cache[hash_key]
-#                 self.size -= 1
-
-# From python 3.7 dict guarantees that order will be kept, and popitem will pop LIFO order but we need LIFO type system
-# so we need OrderedDict which have popIten(last = T/F) which satisfy out req
-
-    def __init__(self, capacity: int):
-        self.capacity= capacity
-        self.size = 0
-        self.cache = OrderedDict()
+        prev_node.next = node
+        node.prev = prev_node
         
-
-    def get(self, key: int) -> int:
+        node.next = self.sentinel_tail
+        self.sentinel_tail.prev = node
+        
+    
+    
+    def get(self, key):
         
         if key in self.cache:
-            val = self.cache.pop(key)
-            self.cache[key] = val
-            return val
+            node = self.cache[key]
+            self.update_node(node)
+            return node.val
+        
         else:
             return -1
         
-
-    def put(self, key: int, value: int) -> None:
+        
+    def put(self, key, value):
         
         if key in self.cache:
-            self.cache.pop(key)
-            self.cache[key] = value
+            # update it
+            node = self.cache[key]
+            node.val = value
+            self.update_node(node)
             
-        else:            
-            # check size
+            
+        else:
+            # checking for size
             if self.size == self.capacity:
-                # remove LRUCache
-                val = self.cache.popitem(last = False)
-                self.size-=1
-            self.cache[key] = value
+                # remove least used node from cache
+                
+                #self.show(self.sentinel_head)
+                
+                self.lr = self.sentinel_head.next
+                
+                
+                to_remove = self.lr.key
+                del self.cache[to_remove]
+                
+                # cache is full, remove LR data
+                node_to_remove = self.lr
+                self.sentinel_head.next = node_to_remove.next 
+                node_to_remove.next.prev = self.sentinel_head
+                self.lr = self.sentinel_head.next
+                
+                # adding new node
+                node = ListNode(value, key)
+                self.cache[key] = node
+                
+                
+                # # shifting to MRU
+                # self.mr.next = node
+                # node.prev = self.mr
+                # self.mr = node
+                
+                prev_point = self.sentinel_tail.prev
+                prev_point.next = node
+                node.prev = prev_point
+                
+                node.next = self.sentinel_tail
+                self.sentinel_tail.prev = node
+                
+                # self.lr = self.sentinel_head.next
+                # self.mr = self.sentinel_tail.prev
+                
+                
+                
+                #print("Capacity full {}:{}, removing {}, -> {}".format(key, value, to_remove, self.cache))
             
-            self.size+=1
-            
-        
+            else:
+                #self.show(self.sentinel_head)
+                
+                self.size+=1
+                node = ListNode(value, key)
+                self.cache[key] = node
+                
+                
+                # shifting to MRU
+                # self.mr.next = node
+                # node.prev = self.mr
+                # self.mr = node
+                
+                prev_point = self.sentinel_tail.prev
+                prev_point.next = node
+                node.prev = prev_point
+                
+                node.next = self.sentinel_tail
+                self.sentinel_tail.prev = node
+                
+                # self.lr = self.sentinel_head.next
+                # self.mr = self.sentinel_tail.prev
+                
+                #print("Node k {}, v {} ".format(node.key, node.val))
+                #print("Adding {}:{}, -> {}".format(key, value, self.cache))
+                #print("From add")
+                #self.show(self.sentinel_head)
+                
+ 
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
