@@ -14,43 +14,26 @@ class Solution:
             node.next = node
             return node
         
-        prev1 = head
-        prev = head.next
-        current = head.next.next
+        
+        prev = head
+        current = head.next
+        found_position =  False
         
         while True:
-            if prev.val > current.val:
-                # smallest or largest
-                
-                #if the num is smallest
-                if prev.val > insertVal and current.val >= insertVal:
-                    new_node = ListNode(insertVal, current)
-                    prev.next = new_node
-                    break
-                elif prev.val <= insertVal and current.val < insertVal: # the num is largest
-                    new_node = ListNode(insertVal, current)
-                    prev.next = new_node
-                    break
-                else:
-                    prev1 = prev1
-                    prev = current
-                    current = current.next
-                    
-            elif prev.val < insertVal and current.val >= insertVal: # between
-                new_node = ListNode(insertVal, current)
-                prev.next = new_node
-                break
-            elif prev.val == current.val and prev1.val == prev.val:
-                new_node = ListNode(insertVal, current)
-                prev.next = new_node
-                break
-            # elif prev.val < insertVal and current.val <= insertVal:
-            #     new_node = ListNode(insertVal, current)
-            #     prev.next = new_node
-            #     break
-            else:
-                prev1 = prev1
-                prev = current
-                current = current.next
+            if prev.val <= insertVal <= current.val:
+                found_position = True
             
-        return head
+            elif prev.val > current.val:
+                if prev.val <= insertVal or insertVal <= current.val:
+                    found_position = True
+            
+            if found_position:
+                prev.next = ListNode(insertVal, current)
+                return head
+            
+            prev, current = current, current.next 
+            
+            if prev == head: 
+                # position not found!
+                prev.next = ListNode(insertVal, current)
+                return head
