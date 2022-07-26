@@ -31,21 +31,31 @@ class Solution:
 #                     current =current.right
                     
 #         return self.result
-        """ Post order tree traversal. """
-        if not root:
-            return root
+
+
+#         """ Post order tree traversal. """
+#         if not root:
+#             return root
         
-        stack1 = []
-        stack2 = []
-        stack1.append(root)
+#         stack1 = []
+#         stack2 = []
+#         stack1.append(root)
         
-        while stack1:
-            value = stack1.pop()
-            stack2.append(value.val)
+#         while stack1:
+#             value = stack1.pop()
+#             stack2.append(value.val)
             
-            if value.left:
-                stack1.append(value.left)
-            if value.right:
-                stack1.append(value.right)
-        stack2.reverse()
-        return stack2
+#             if value.left:
+#                 stack1.append(value.left)
+#             if value.right:
+#                 stack1.append(value.right)
+#         stack2.reverse()
+#         return stack2
+
+        """ Postorder Tree traversal with recursive function call.  left -> right -> root """
+        if root:
+            self.postorderTraversal(root.left)
+            self.postorderTraversal(root.right)
+            self.result.append(root.val)
+            
+        return self.result
