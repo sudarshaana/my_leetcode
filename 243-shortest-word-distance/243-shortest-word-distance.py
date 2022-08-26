@@ -14,5 +14,7 @@ class Solution:
                 
             if w1 != -1 and w2 != -1:
                 res = min(res, abs(w2-w1))
+                if res == 1:
+                    return res
         
         return res
