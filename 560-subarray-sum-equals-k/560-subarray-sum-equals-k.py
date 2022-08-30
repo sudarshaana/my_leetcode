@@ -12,6 +12,9 @@ class Solution:
             
             if total-k in d:
                 count += d[total-k]
-            d[total] = d.get(total, 0) +1
+            if total in d:
+                d[total] += 1
+            else:
+                d[total] = 1
             
         return count
