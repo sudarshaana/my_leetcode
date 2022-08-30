@@ -4,8 +4,7 @@ class Solution:
         count = 0
         total = 0
         
-        d = {}
-        d[0] = 1
+        d = {0:1}
         
         for num in nums:
             total += num
