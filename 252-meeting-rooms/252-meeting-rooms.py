@@ -12,7 +12,8 @@ class Solution:
         for intv in intervals[1:]:   
             
             if intv[0] < allocation[0]: 
-                heapq.heappush(allocation, intv[1])
+                return False
+                #heapq.heappush(allocation, intv[1])
             else:
                 heapq.heappushpop(allocation, intv[1])        
                 
