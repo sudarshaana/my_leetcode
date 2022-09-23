@@ -16,13 +16,12 @@ class Solution:
         
         for i, num in enumerate(nums[1:]):
             diff = abs(num - nums[i])
-
-            if diff < min_diff:
-                min_diff = diff
-                diff_map.clear()
-                diff_map.append([nums[i], num])
-            elif diff == min_diff:
+            
+            if diff == min_diff:
                 diff_map.append([nums[i], num])
                 
+            elif diff < min_diff:
+                min_diff = diff
+                diff_map = [[nums[i], num]]
             
         return diff_map
