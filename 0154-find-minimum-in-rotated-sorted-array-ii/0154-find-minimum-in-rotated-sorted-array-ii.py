@@ -17,19 +17,8 @@ class Solution:
         while left < right:
 
             mid = (left + right)//2
-            print(mid, nums[mid], " -- ", left, right)
             
-            if nums[mid] < nums[mid-1]:
-                return nums[mid]
-
-            elif nums[mid-1] > nums[mid] <= nums[mid+1]:
-                return nums[mid]
-            
-            elif nums[mid-1] > nums[mid] and nums[mid] < nums[mid+1]:
-                return nums[mid]
-            
-            
-            elif nums[right] < nums[mid]:
+            if nums[right] < nums[mid]:
                 left = mid+1
             elif nums[right] > nums[mid]:
                 right = mid
@@ -38,5 +27,4 @@ class Solution:
                     
                     
         
-        print("left", left)
         return nums[left]
