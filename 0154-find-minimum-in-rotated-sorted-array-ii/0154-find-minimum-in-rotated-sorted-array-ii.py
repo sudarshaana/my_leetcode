@@ -3,13 +3,6 @@ class Solution:
         
         #return min(nums)
         
-        if len(nums) == 1:
-            return nums[0]
-        
-        if nums[0] < nums[-1]:
-            return nums[0]
-        
-        
         left = 0
         right = len(nums)-1
         
