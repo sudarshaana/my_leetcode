@@ -1,16 +1,29 @@
 
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-
-        s = set()
-        for num in nums:
-            if num in s:
+        
+        # using sort
+        
+        nums.sort()
+        prev = nums[0]
+        for num in nums[1:]:
+            if prev == num:
                 return num
-            else:
-                s.add(num)
+            prev = num
         
         
-        #         # 'low' and 'high' represent the range of values of the target
+        # using set
+        # s = set()
+        # for num in nums:
+        #     if num in s:
+        #         return num
+        #     else:
+        #         s.add(num)
+        
+        
+        # using Binary search
+        
+#         # 'low' and 'high' represent the range of values of the target
 #         low = 1
 #         high = len(nums) - 1
         
