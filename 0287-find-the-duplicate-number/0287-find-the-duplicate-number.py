@@ -4,12 +4,28 @@ class Solution:
         
         # using sort
         
-        nums.sort()
-        prev = nums[0]
-        for num in nums[1:]:
-            if prev == num:
-                return num
-            prev = num
+        # nums.sort()
+        # prev = nums[0]
+        # for num in nums[1:]:
+        #     if prev == num:
+        #         return num
+        #     prev = num
+        
+        
+        # negative marking
+        
+        for num in nums:
+            cur = abs(num)
+            if nums[cur] < 0:
+                duplicate = cur
+                break
+            nums[cur] = -nums[cur]
+        
+        # Restoring numbers
+        for i in range(len(nums)):
+            nums[i] = abs(nums[i])
+            
+        return duplicate
         
         
         # using set
