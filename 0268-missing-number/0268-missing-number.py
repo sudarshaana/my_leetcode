@@ -7,9 +7,14 @@ class Solution:
         #         return n
         
         
-        nums.sort()
-        for i in range(len(nums)):
-            if i != nums[i]:
-                return i
+#         nums.sort()
+#         for i in range(len(nums)):
+#             if i != nums[i]:
+#                 return i
             
-        return len(nums)
+#         return len(nums)
+
+
+        total = sum(nums)
+        expected_sum = len(nums)*(len(nums)+1)//2
+        return expected_sum - total
