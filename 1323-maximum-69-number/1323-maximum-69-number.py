@@ -21,4 +21,18 @@ class Solution:
                 
 #         return int("".join(nums))
 
-        return int(str(num).replace("6", "9", 1))
+        #return int(str(num).replace("6", "9", 1))
+    
+        
+        current_digit = 0
+        first_index_six = -1
+        num_cp = num
+        
+        while num_cp:
+            if num_cp %10 == 6:
+                first_index_six = current_digit
+            
+            num_cp //= 10
+            current_digit += 1
+        
+        return num if first_index_six == -1 else num + 3* 10**first_index_six
