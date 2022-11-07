@@ -12,11 +12,13 @@ class Solution:
         
 #         return int("".join(new_num))
 
-        nums = list(str(num))
+#         nums = list(str(num))
     
-        for i, cur_num in enumerate(nums):
-            if cur_num == '6':
-                nums[i] = '9'
-                break
+#         for i, cur_num in enumerate(nums):
+#             if cur_num == '6':
+#                 nums[i] = '9'
+#                 break
                 
-        return int("".join(nums))
+#         return int("".join(nums))
+
+        return int(str(num).replace("6", "9", 1))
