@@ -3,10 +3,19 @@ class Solution:
         
         avg = set()
         
+#         while nums:
+#             maxi, mini = max(nums), min(nums)
+#             nums.remove(maxi)
+#             nums.remove(mini)
+#             avg.add((maxi+mini)/2)
+            
+#         return len(avg)
+        
+        nums.sort()
         while nums:
-            maxi, mini = max(nums), min(nums)
-            nums.remove(maxi)
-            nums.remove(mini)
+            maxi, mini = nums[-1], nums[0]
+            nums.pop(0)
+            nums.pop(-1)
             avg.add((maxi+mini)/2)
             
         return len(avg)
